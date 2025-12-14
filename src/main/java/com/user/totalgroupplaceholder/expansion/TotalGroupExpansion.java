@@ -1,10 +1,10 @@
-package com.user.totalgroupplaceholder;
+package com.user.totalgroupplaceholder.expansion;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.OfflinePlayer;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
+import org.bukkit.OfflinePlayer;
 
 public class TotalGroupExpansion extends PlaceholderExpansion {
     @Override
@@ -28,24 +28,24 @@ public class TotalGroupExpansion extends PlaceholderExpansion {
         try {
             luckPerms = LuckPermsProvider.get();
         } catch (IllegalStateException e) {
-                return "LuckPerms not available";
+            return "LuckPerms not available";
         }
 
         String groupName = params.toLowerCase();
         Group group = luckPerms.getGroupManager().getGroup(groupName);
         if (group == null) {
-                return "Group not found";
+            return "Group not found";
         }
 
         try {
             return luckPerms.getUserManager().searchAll(net.luckperms.api.node.matcher.NodeMatcher.key("group." + groupName))
-                .thenApply(map -> String.valueOf(map.size()))
-                .get();
+                    .thenApply(map -> String.valueOf(map.size()))
+                    .get();
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
-                return "Interrupted while searching for members";
+            return "Interrupted while searching for members";
         } catch (Exception e) {
-                return "Error while searching for members";
+            return "Error while searching for members";
         }
     }
 }

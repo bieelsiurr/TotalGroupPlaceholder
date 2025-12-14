@@ -1,39 +1,38 @@
 package com.user.totalgroupplaceholder;
 
+import com.user.totalgroupplaceholder.command.TotalGroupCommand;
+import com.user.totalgroupplaceholder.expansion.TotalGroupExpansion;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Main extends JavaPlugin {
+public class TotalGroupPlaceholderPlugin extends JavaPlugin {
 
     private static final String TOTALGROUP_COMMAND = "totalgroup";
 
     @Override
     public void onEnable() {
-        getLogger().info("TotalGroupPlaceholder enabled!");
+        getLogger().info("Enabling TotalGroupPlaceholder...");
 
-        // Register command and tab completion
         if (getCommand(TOTALGROUP_COMMAND) != null) {
             TotalGroupCommand cmd = new TotalGroupCommand();
+
             getCommand(TOTALGROUP_COMMAND).setExecutor(cmd);
             getCommand(TOTALGROUP_COMMAND).setTabCompleter(cmd);
         }
 
-        // Detectar versión de PlaceholderAPI
-        org.bukkit.plugin.Plugin placeholderApi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+        Plugin placeholderApi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
         if (placeholderApi != null) {
-            String version = placeholderApi.getDescription().getVersion();
-            getLogger().info("PlaceholderAPI version detected: " + version);
-            if (!version.startsWith("2.11.6")) {
-                getLogger().severe("Unsupported PlaceholderAPI version: " + version + ". This plugin only supports 2.11.6. Disabling...");
-                getServer().getPluginManager().disablePlugin(this);
-                return;
-            }
             new TotalGroupExpansion().register();
             getLogger().info("PlaceholderAPI expansion registered successfully.");
         } else {
             getLogger().warning("PlaceholderAPI is not installed, disabling plugin...");
             getServer().getPluginManager().disablePlugin(this);
+
+            return;
         }
+
+        getLogger().info("TotalGroupPlaceholder enabled!");
     }
 
     @Override

@@ -1,8 +1,11 @@
 name: "TotalGroupPlaceholder"
-version: "1.2"
-main: "com.user.totalgroupplaceholder.Main"
+version: "1.4-FORKED"
+main: "com.user.totalgroupplaceholder.TotalGroupPlaceholderPlugin"
 api-version: "1.13"
 api: "PlaceholderAPI"
+authors:
+  - XtoManuel
+  - biiee3l
 depend:
   - "PlaceholderAPI"
   - "LuckPerms"
